@@ -1,0 +1,89 @@
+.navbar {
+    border-radius: 10px;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.logo {
+    width: 15%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    width: 200px;
+}
+
+/* ── Left group ─────────────────────────────────── */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Right group ─────────────────────────────────── */
+.nav-right {
+    display: flex;
+    position: absolute;
+    right: 20px;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ── Links: strip default underline ──────────────── */
+.nav-left a,
+.nav-right a {
+    text-decoration: none;
+    color: #1a1a1a;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    position: relative;
+    /* anchor for the pseudo-element */
+    padding-bottom: 3px;
+}
+
+/* ── Animated underline (center → out) ───────────── */
+.nav-left a::after,
+.nav-right a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    right: 50%;
+    height: 2px;
+    background-color: #111111;
+    /* indigo accent */
+    border-radius: 2px;
+    transition: left 0.35s ease-in-out, right 0.35s ease-in-out;
+}
+
+.nav-left a:hover::after,
+.nav-right a:hover::after {
+    left: 0;
+    right: 0;
+}
+
+/* optional: tint the text on hover */
+.nav-left a:hover,
+.nav-right a:hover {
+    color: #87878a;
+    transition: color 0.25s ease-in-out;
+}

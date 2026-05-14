@@ -1,0 +1,42 @@
+body {
+  background-color: #e8e5e5;
+}
+
+.container-items {
+  position: absolute;
+  top: 80px;
+  left: 232px;
+  right: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
+/* Tablet large (sidebar still visible on left) */
+@media (max-width: 1024px) and (min-width: 781px) {
+  .container-items {
+    left: 232px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Tablet small / iPad (sidebar is now a bottom footer) */
+@media (max-width: 780px) and (min-width: 601px) {
+  .container-items {
+    left: 16px;
+    right: 16px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Phone — 2 columns, sidebar moves to footer so reset left */
+@media (max-width: 600px) {
+  .container-items {
+    position: static;
+    margin-top: 16px;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    padding: 12px;
+  }
+}

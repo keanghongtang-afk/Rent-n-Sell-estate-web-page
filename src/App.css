@@ -34,9 +34,10 @@ body {
 @media (max-width: 600px) {
   .container-items {
     position: static;
-    margin-top: 16px;
+    margin-top: 90px;
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
     padding: 12px;
+    box-sizing: border-box;
   }
 }

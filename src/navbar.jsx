@@ -1,4 +1,6 @@
-import "./navbar.css"
+import "./navbar.css";
+import cart from "./src/assets/cart.jpg";
+import logo from "./src/assets/logo.jpg"
 function Navbar() {
     var isLogin = true;
     if (isLogin == true) {
@@ -19,19 +21,17 @@ function Navbar() {
 
     return (
         <nav className="navbar">
-            <ul>
-                <div className="nav-left">
-                    <li><img src="./src/assets/logo.jpg" alt="logo" /></li>
+                <ul className="nav-left">
+                    <li><img src={logo} alt="logo" width="40px" /></li>
                     <li><a href="#">Rent</a></li>
                     <li><a href="#">Sell</a></li>
-                </div>
-                <div className="nav-right">
+                </ul>
+                <ul className="nav-right">
                     <li><a href="#">Login</a></li>
-                    <li><a href="#">Sign Up</a></li>
-                </div>
-                <li><a href="#"><img src="./src/cart.png" alt="cart" /></a></li>
-            </ul>
-        </nav>
+                    <li><a href="">SignIn</a></li>
+                    <li><a href="#"><img src={cart} alt="cart" width="25px" /></a></li>
+                </ul>
+            </nav>
     )
 }
 

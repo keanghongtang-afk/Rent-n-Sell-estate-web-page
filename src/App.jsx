@@ -2,7 +2,7 @@ import Card from "./Card";
 import Navbar from "./navbar";
 import Side from "./sidebar";
 import "./App.css";
-import picture from "./src/assets/house.jpg";
+import picture from "./assets/house.jpg";
 function App() {
 
   return (

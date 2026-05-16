@@ -1,20 +1,48 @@
 import "./Cart.css";
 function Cart() {
-    var cart = sessionStorage.getItem("cart") ? JSON.parse(sessionStorage.getItem("cart")) : [];
-    console.log(cart);
+    var cart = [
+        {
+            name: "PS5 Slim",
+            price: 599.99,
+            qty: 2
+        },
+        {
+            name: "PS5 Slim",
+            price: 599.99,
+            qty: 1
+        }
+    ];
     return (
         <>
-            <h1 className="cart-title">Your Cart</h1>
-            <div className="cart-container">
-                {cart.map((item) => {
-                    return (
-                        <div className="cart-item">
-                            <img src={item.image} alt={item.name} />
-                            <h2>{item.name}</h2>
-                            <p>{item.price}</p>
-                        </div>
-                    )
-                })}
+            <div className="container">
+                <center><b style={{ fontSize: "40px" }}>Your Cart</b></center>
+                <hr />
+                <div className="cart-container">
+                    <div className="cart-header">
+                        <h2>Name</h2>
+                        <p>Quantity</p>
+                        <p>Price</p>
+                    </div>
+                    {cart.map((item) => {
+                        return (
+                            <div className="cart-item">
+                                <h2>{item.name}</h2>
+                                <p>{item.qty}</p>
+                                <p>{item.price * item.qty}$</p>
+                            </div>
+                        )
+                    })}
+                </div>
+                <hr />
+                <div className="total">
+                    <h2>Total: </h2>
+                    <p>{cart.reduce((total, item) => total + (item.price * item.qty), 0)}$</p>
+                    <p>{cart.reduce((total, item) => total + (item.price * item.qty), 0) * 4000}Riel</p>
+                </div>
+                <center>
+                    <button className="order-btn">Order</button>
+                    <button className="shop-btn">Continue Shopping</button>
+                </center>
             </div>
         </>
     )

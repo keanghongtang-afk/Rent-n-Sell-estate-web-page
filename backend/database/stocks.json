@@ -1,0 +1,18 @@
+[
+  {
+    "Image": "/uploads/aefccba4ad1646579548d14c1f2c8cb3.jpg",
+    "Item_name": "string",
+    "item_descripton": "string",
+    "item_price": 100.0,
+    "Sell/Rent": "Sell",
+    "owner": "string"
+  },
+  {
+    "Image": "/uploads/afde94283610458bbef4e4a673683a88.jpg",
+    "Item_name": "House",
+    "item_descripton": "N/a",
+    "item_price": 1000.0,
+    "Sell/Rent": "Sell",
+    "owner": "keanghongtang@gmail.com"
+  }
+]

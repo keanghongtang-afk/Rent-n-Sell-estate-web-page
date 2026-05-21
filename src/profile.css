@@ -1,0 +1,77 @@
+.profile-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.profile-form-card {
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin-bottom: 40px;
+}
+
+.profile-form-card h2 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.profile-form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-form-card label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #555;
+}
+
+.profile-form-card input, 
+.profile-form-card select, 
+.profile-form-card textarea {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+.profile-form-card button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.profile-form-card button:hover {
+  background-color: #218838;
+}
+
+.user-listings {
+  margin-top: 40px;
+}
+
+.user-listings h2 {
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.listings-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}

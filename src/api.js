@@ -145,7 +145,25 @@ export const login = async (email, password) => {
     console.error("Error during login:", error);
     throw error;
   }
+};/**
+ * Get a user's public profile (name + email) by email
+ * @param {string} email
+ * @returns {Promise<{Name: string, Email: string}>}
+ */
+export const getUser = async (email) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/${encodeURIComponent(email)}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    });
+    if (!response.ok) throw new Error("User not found");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    throw error;
+  }
 };
+
 
 /**
  * Get stocks
@@ -184,3 +202,31 @@ export const addStock = async (formData) => {
     throw error;
   }
 };
+
+export const GetrentItems = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/rent`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    });
+    if (!response.ok) throw new Error("Failed to get stock");
+    return await response.json(); // Array of stocks or "No stock available!"
+  } catch (error) {
+    console.error("Error fetching stock:", error);
+    throw error;
+  }
+}
+
+export const GetSellItems = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/sell`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    });
+    if (!response.ok) throw new Error("Failed to get stock");
+    return await response.json(); // Array of stocks or "No stock available!"
+  } catch (error) {
+    console.error("Error fetching stock:", error);
+    throw error;
+  }
+}

@@ -37,10 +37,7 @@ function Card(props) {
             <h1>{props.name}</h1>
             <p className="description">{props.description}</p>
             <p className="price"><b>Price: ${props.price}</b></p>
-            <div className="buttons">
-                <button className="btn" onClick={handleRentNow}>Rent Now</button>
-                <button className="btn" onClick={handleBuyNow}>Buy Now</button>
-            </div>
+            {props.SoR == "Sell"?<button className="btn" onClick={handleBuyNow}>Buy Now</button>:<button className="btn" onClick={handleRentNow}>Rent Now</button>}
         </div>
     )
 }
@@ -50,6 +47,7 @@ Card.propTypes = {
     description: Props.string,
     price: Props.string,
     image: Props.string,
+    SoR: Props.string,
     isLogin: Props.bool
 }
 
@@ -58,6 +56,7 @@ Card.defaultProps = {
     description: "Unknown",
     price: "Unknown",
     image: "Unknown",
+    Sor: "Unknown",
     isLogin: false
 }
 

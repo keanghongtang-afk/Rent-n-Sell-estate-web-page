@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getCart, deleteFromCart, clearCart } from "./api";
+import { Link } from "react-router-dom";
 import "./Cart.css";
 
 function Cart({ isLogin }) {
@@ -114,7 +115,7 @@ function Cart({ isLogin }) {
                     <p>${total.toFixed(2)}</p>
                     <p>{totalRiel.toFixed(0)} Riel</p>
                 </div>
-                <center>
+                <center className="btn">
                     <button 
                         className="order-btn"
                         onClick={handleOrder}
@@ -122,7 +123,7 @@ function Cart({ isLogin }) {
                     >
                         Order
                     </button>
-                    <button className="shop-btn">Continue Shopping</button>
+                    <Link to="/"><button className="shop-btn">Continue Shopping</button></Link>
                 </center>
             </div>
         </>

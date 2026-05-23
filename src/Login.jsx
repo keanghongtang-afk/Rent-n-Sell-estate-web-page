@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "./api";
+import { login, getUser } from "./api";
 import './Login.css';
 
 function Login({ setLogin }) {
@@ -15,7 +15,13 @@ function Login({ setLogin }) {
     try {
       const result = await login(email, password);
       if (result === true) {
-        setLogin(true, email);
+        // Fetch real name and cache it
+        let realName = "";
+        try {
+          const userData = await getUser(email);
+          realName = userData.Name || "";
+        } catch (_) { /* silently ignore, name will fall back to email prefix */ }
+        setLogin(true, email, realName);
         alert("Logged in successfully!");
         navigate("/");
       } else {

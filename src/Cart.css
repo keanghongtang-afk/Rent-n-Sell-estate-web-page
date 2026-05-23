@@ -46,3 +46,36 @@
 hr {
     height: 2px;
 }
+
+.btn {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn .order-btn, .btn .shop-btn {
+    width: fit-content;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+}
+
+.btn .order-btn:hover, .btn .shop-btn:hover {
+    transform: scale(1.05);
+    background-color: white;
+    color: black;
+    box-shadow: 2px 2px 5px black;
+}
+
+.btn .order-btn:disabled{
+    background-color: gray;
+}
+
+ .btn .order-btn:disabled:hover{
+    transform: scale(1);
+    background-color: red;
+    box-shadow: none;
+ }

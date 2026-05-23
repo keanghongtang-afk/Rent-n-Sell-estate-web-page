@@ -1,18 +1,18 @@
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
 import json
 import os
 import shutil
 import uuid
+from app.shcema import UserSignup,CartItem,Stock
+from app.FilePath import CartPath, UsersPath, Stockspath
 
 app = FastAPI()
 
-# Add CORS middleware to allow requests from frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace with specific origins like ["http://localhost:5173"]
+    allow_origins=["*"],  
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -22,42 +22,6 @@ UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
-CartPath = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "database",
-    "cart.json"
-    )
-
-UsersPath = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "database",
-    "Users.json"
-    )
-
-Stockspath = os.path.join(
-    os.path.dirname(__file__),
-    "..",
-    "database",
-    "stocks.json"
-    )
-class CartItem(BaseModel):
-    name: str
-    price: float
-    type: str
-
-class UserSignup(BaseModel):
-    name: str
-    email: str
-    password: str
-
-class House(BaseModel):
-    # This model is kept for documentation/reference, but not used in the endpoint directly because of FormData
-    name: str
-    description: str
-    price: float
-    type: str
 
 @app.post("/cart")
 def add_item_to_cart(item: CartItem):
@@ -138,6 +102,18 @@ def signup(
         "Password": user.password
     }
 
+@app.get("/users/{user_email}")
+def get_user(user_email: str):
+    try:
+        with open(UsersPath, "r") as f:
+            Users = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        Users = []
+    for user in Users:
+        if user["Email"] == user_email:
+            return {"Name": user["Name"], "Email": user["Email"]}
+    raise HTTPException(status_code=404, detail="User not found")
+
 @app.get("/users/{user_email}/{user_password}")
 def login(
     user_email: str,
@@ -157,14 +133,9 @@ def login(
 
 @app.post("/stock")
 def add_item(
-    image: UploadFile = File(...),
-    name: str = Form(...),
-    description: str = Form(...),
-    price: float = Form(...),
-    listing_type: str = Form(...),
-    owner: str = Form(...),
+    Item: Stock
 ):
-    if image.content_type not in ["image/jpeg", "image/jpg"]:
+    if Stock.image.content_type not in ["image/jpeg", "image/jpg"]:
         raise HTTPException(status_code=400, detail="Only JPG/JPEG files are allowed.")
         
     try:
@@ -173,28 +144,28 @@ def add_item(
     except (FileNotFoundError, json.JSONDecodeError):
         Stocks = []
         
-    if not price:
-        price = 100.0
-    if listing_type.capitalize() not in ["Sell", "Rent"]:
+    if Stock.price < 0:
+        Stock.price = 100.0
+    if Stock.listing_type.capitalize() not in ["Sell", "Rent"]:
         return "You can only Sell or Rent your house!"
         
     # Save the file
-    file_extension = os.path.splitext(image.filename)[1]
+    file_extension = os.path.splitext(Stock.image.filename)[1]
     unique_filename = f"{uuid.uuid4().hex}{file_extension}"
     file_path = os.path.join(UPLOAD_DIR, unique_filename)
     
     with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(image.file, buffer)
+        shutil.copyfileobj(Stock.image.file, buffer)
         
     image_url = f"/uploads/{unique_filename}"
 
     new_stock = {
         "Image": image_url,
-        "Item_name": name,
-        "item_descripton": description,
-        "item_price": price,
-        "Sell/Rent": listing_type,
-        "owner": owner
+        "Item_name": Stock.name,
+        "item_descripton": Stock.description,
+        "item_price": Stock.price,
+        "SellorRent": Stock.listing_type,
+        "owner": Stock.owner
     }
     Stocks.append(new_stock)
     
@@ -211,3 +182,30 @@ def Stock_item():
     except (FileNotFoundError, json.JSONDecodeError):
         return "No stock available!"
     return Stocks
+
+@app.get("/rent")
+def get_rent_items():
+    try:
+        with open(Stockspath,'r') as f:
+            Items = json.load(f)
+    except (FileNotFoundError,json.JSONDecodeError):
+        return "No Renting Item Availlable"
+    Rent_items = []
+    for item in Items:
+        if item["SellorRent"] == "Rent":
+            Rent_items.append(item)
+    return Rent_items
+        
+@app.get("/sell")
+def get_sell_items():
+    try:
+        with open(Stockspath,'r') as f:
+            Items = json.load(f)
+    except (FileNotFoundError,json.JSONDecodeError):
+        return "No Renting Item Availlable"
+    Sell_items = []
+    for item in Items:
+        if item["SellorRent"] == "Sell":
+            Sell_items.append(item)
+    return Sell_items
+

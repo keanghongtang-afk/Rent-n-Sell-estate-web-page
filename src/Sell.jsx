@@ -7,7 +7,7 @@ import { GetSellItems } from "./api";
 function Sell({ isLogin }){
   const [stocks, setStocks] = useState([]);
   const [stockMessage, setStockMessage] = useState("");
-
+  
   useEffect(() => {
     const fetchStocks = async () => {
       try {

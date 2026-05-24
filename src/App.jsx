@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Card from "./Card";
 import Navbar from "./navbar";
+import Detail from "./Detail";
 import Side from "./sidebar";
 import Login from "./Login";
 import Signup from "./Signup";
@@ -79,9 +80,10 @@ function App() {
         <Route path="/login" element={<Login setLogin={handleSetLogin} />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/cart" element={<Cart isLogin={islogin} />} />
+        <Route path="/detail" element={<Detail />} />
         <Route path="/profile" element={<Profile isLogin={islogin} userEmail={userEmail} userName={userName} />} />
-        <Route path="/rent" element={<Rent />} />
-        <Route path="/sell" element={<Sell />} />
+        <Route path="/rent" element={<Rent isLogin={islogin}/>} />
+        <Route path="/sell" element={<Sell isLogin={islogin}/>} />
       </Routes>
     </>
   )

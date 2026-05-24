@@ -7,7 +7,7 @@ import { GetrentItems } from "./api";
 function Rent({ isLogin }){
   const [stocks, setStocks] = useState([]);
   const [stockMessage, setStockMessage] = useState("");
-
+  
   useEffect(() => {
     const fetchStocks = async () => {
       try {

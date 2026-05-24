@@ -1,3 +1,20 @@
 [
-  
+  {
+    "Image": "/uploads/8ef9cf45455d4e86847c1f630df80898.jpg",
+    "Item_name": "string",
+    "item_descripton": "string",
+    "item_price": 100.0,
+    "SellorRent": "Sell",
+    "Status": true,
+    "owner": "string"
+  },
+  {
+    "Image": "/uploads/89aaf337fa9f42d1a7fd7c9187a776ad.jpg",
+    "Item_name": "string",
+    "item_descripton": "string",
+    "item_price": 10000.0,
+    "SellorRent": "Sell",
+    "Status": true,
+    "owner": "string"
+  }
 ]

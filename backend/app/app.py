@@ -5,7 +5,7 @@ import json
 import os
 import shutil
 import uuid
-from app.shcema import UserSignup,CartItem,Stock
+from app.shcema import UserSignup,CartItem
 from app.FilePath import CartPath, UsersPath, Stockspath
 
 app = FastAPI()
@@ -22,7 +22,9 @@ UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
-
+#
+# For Cart functions
+# 
 @app.post("/cart")
 def add_item_to_cart(item: CartItem):
     try: 
@@ -78,7 +80,9 @@ def clear_cart():
     except FileNotFoundError:
         pass
     return "Your cart has been cleared!"
-
+#
+# For SignUp and Login
+# 
 @app.post("/users")
 def signup(
     user: UserSignup
@@ -130,12 +134,20 @@ def login(
                 return True
             return "Wrong Password or Email! Please try again!"
     return "User not found!"
-
+#
+# For Functions that connect to the Stocks and Order
+# 
 @app.post("/stock")
 def add_item(
-    Item: Stock
+    image: UploadFile = File(...),
+    name: str = Form(...),
+    description: str = Form(...),
+    price: float = Form(...),
+    status: bool = True,
+    listing_type: str = Form(...),
+    owner: str = Form(...),
 ):
-    if Stock.image.content_type not in ["image/jpeg", "image/jpg"]:
+    if image.content_type not in ["image/jpeg", "image/jpg"]:
         raise HTTPException(status_code=400, detail="Only JPG/JPEG files are allowed.")
         
     try:
@@ -144,28 +156,29 @@ def add_item(
     except (FileNotFoundError, json.JSONDecodeError):
         Stocks = []
         
-    if Stock.price < 0:
-        Stock.price = 100.0
-    if Stock.listing_type.capitalize() not in ["Sell", "Rent"]:
+    if price < 0:
+        price = 100.0
+    if listing_type.capitalize() not in ["Sell", "Rent"]:
         return "You can only Sell or Rent your house!"
         
     # Save the file
-    file_extension = os.path.splitext(Stock.image.filename)[1]
+    file_extension = os.path.splitext(image.filename)[1]
     unique_filename = f"{uuid.uuid4().hex}{file_extension}"
     file_path = os.path.join(UPLOAD_DIR, unique_filename)
     
     with open(file_path, "wb") as buffer:
-        shutil.copyfileobj(Stock.image.file, buffer)
+        shutil.copyfileobj(image.file, buffer)
         
     image_url = f"/uploads/{unique_filename}"
 
     new_stock = {
         "Image": image_url,
-        "Item_name": Stock.name,
-        "item_descripton": Stock.description,
-        "item_price": Stock.price,
-        "SellorRent": Stock.listing_type,
-        "owner": Stock.owner
+        "Item_name":name,
+        "item_descripton": description,
+        "item_price": price,
+        "SellorRent": listing_type,
+        "Status": status,
+        "owner": owner
     }
     Stocks.append(new_stock)
     
@@ -173,7 +186,9 @@ def add_item(
         json.dump(Stocks, f, indent=2)
         
     return new_stock
-    
+#
+# For Item to show in Home, Rent, adn Sell Page
+# 
 @app.get("/stock")
 def Stock_item():
     try:
@@ -208,4 +223,61 @@ def get_sell_items():
         if item["SellorRent"] == "Sell":
             Sell_items.append(item)
     return Sell_items
+#
+# For Function to detect item that already bought or rented
+# 
+@app.delete("/stock")
+def disactive_delete():
+    try:
+        with open(Stockspath,'r') as f:
+            items = json.load(f)
+        for item in items:
+            if not item["Status"]:
+                items.remove(item)
+                os.remove("."+item["Image"])
+        with open(Stockspath,'w') as f:
+            json.dump(items,f,indent=2)
+        return "Successfully deleted"  
+    except FileNotFoundError:
+        return "Files Not Found!"          
 
+@app.put("/stock/{item_idex}")
+def update_status(item_idex: int):
+    try:
+        with open(Stockspath,'r') as f:
+            items = json.load(f)
+        items[item_idex]["Status"] = False
+        with open(Stockspath,'w') as f:
+            json.dump(items,f,indent=2)
+        return "Success!"
+    except FileNotFoundError:
+        return "Nothing here"
+    
+#
+# Filter out Items
+# 
+@app.get("/stock/{filter}")
+def filteroutItem(filter: str):
+    try:
+        data = []
+        with open(Stockspath,'r') as f:
+            items = json.load(f)
+        if filter == "Affordable":
+            for item in items:
+                if item["item_price"] > 0 and item["item_price"] < 60000:
+                    data.append(item)
+        elif filter == "Normal":
+            for item in items:
+                if item["item_price"] > 60000 and item["item_price"] < 150000:
+                    data.append(item)
+        elif filter == "Medium":
+            for item in items:
+                if item["item_price"] > 150000 and item["item_price"] < 400000:
+                    data.append(item)
+        elif filter == "Luxurious":
+            for item in items:
+                if item["item_price"] > 400000 and item["item_price"] < 5000000:
+                    data.append(item)
+        return data
+    except (FileNotFoundError, json.JSONDecodeError):
+        return "ERROR"

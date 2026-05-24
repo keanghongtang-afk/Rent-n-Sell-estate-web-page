@@ -1,4 +1,5 @@
 import Props from "prop-types";
+import { Link } from "react-router-dom";
 import "./Card.css";
 import { addToCart } from "./api";
 
@@ -31,12 +32,14 @@ function Card(props) {
 
     return (
         <div className="card">
-            <div className="img-wrapper">
-                <img src={props.image} alt={props.name} />
-            </div>
-            <h1>{props.name}</h1>
-            <p className="description">{props.description}</p>
-            <p className="price"><b>Price: ${props.price}</b></p>
+            <Link to="/detail" state={{ name: props.name, description: props.description, price: props.price, image: props.image, SoR: props.SoR }} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className="img-wrapper">
+                    <img src={props.image} alt={props.name} />
+                </div>
+                <h1>{props.name}</h1>
+                <p className="description">{props.description}</p>
+                <p className="price"><b>Price: ${props.price}</b></p>
+            </Link>
             {props.SoR == "Sell"?<button className="btn" onClick={handleBuyNow}>Buy Now</button>:<button className="btn" onClick={handleRentNow}>Rent Now</button>}
         </div>
     )

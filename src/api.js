@@ -88,8 +88,8 @@ export const deleteFromCart = async (itemId) => {
  */
 export const clearCart = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/cart/clear`, {
-      method: "POST",
+    const response = await fetch(`${API_BASE_URL}/cart`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
@@ -228,5 +228,20 @@ export const GetSellItems = async () => {
   } catch (error) {
     console.error("Error fetching stock:", error);
     throw error;
+  }
+}
+
+export const Filter = async (filter) => {
+  try{
+    const responce = await fetch(`${API_BASE_URL}/stock/${filter}`, {
+      method: "GET",
+      headers: {"Content-Type":"application/json"}
+    })
+    if (!responce.ok) throw new Error("fail to fetch");
+    return await responce.json();
+  }
+  catch(e){
+    console.log(e);
+    throw e;
   }
 }

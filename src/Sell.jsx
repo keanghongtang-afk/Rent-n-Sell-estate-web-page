@@ -2,12 +2,36 @@ import Card from "./Card";
 import Side from "./sidebar";
 import picture from "./assets/house.jpg";
 import { useState, useEffect } from "react";
-import { GetSellItems } from "./api";
+import { GetSellItems, Filter, getStock } from "./api";
 
 function Sell({ isLogin }){
   const [stocks, setStocks] = useState([]);
   const [stockMessage, setStockMessage] = useState("");
   
+   const handleFilter = async (type) => {
+      try {
+        let data;
+        if (type === "All") {
+          data = await getStock();
+        } else {
+          data = await Filter(type);
+        }
+        
+        if (typeof data === "string") {
+          setStockMessage(data);
+          setStocks([]);
+        } else if (Array.isArray(data) && data.length === 0) {
+          setStockMessage(`No ${type} houses available!`);
+          setStocks([]);
+        } else {
+          setStocks(data);
+          setStockMessage("");
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
   useEffect(() => {
     const fetchStocks = async () => {
       try {
@@ -31,7 +55,7 @@ function Sell({ isLogin }){
 
   return (
   <>
-    <Side />
+    <Side onFilter={handleFilter}/>
     <div className="container-items">
         {stockMessage ? (
           <div style={{ padding: "20px", fontSize: "24px", fontWeight: "bold" }}>{stockMessage}</div>

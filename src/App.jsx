@@ -10,7 +10,7 @@ import Cart from "./Cart";
 import Profile from "./Profile";
 import Rent from "./Rent";
 import Sell from "./Sell";
-import { getStock } from "./api";
+import { getStock, Filter } from "./api";
 import "./App.css";
 import picture from "./assets/house.jpg";
 
@@ -30,6 +30,29 @@ function App() {
     localStorage.setItem("userName", name);
   };
 
+  const handleFilter = async (type) => {
+    try {
+      let data;
+      if (type === "All") {
+        data = await getStock();
+      } else {
+        data = await Filter(type);
+      }
+      
+      if (typeof data === "string") {
+        setStockMessage(data);
+        setStocks([]);
+      } else if (Array.isArray(data) && data.length === 0) {
+        setStockMessage(`No ${type} houses available!`);
+        setStocks([]);
+      } else {
+        setStocks(data);
+        setStockMessage("");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
   useEffect(() => {
     const fetchStocks = async () => {
       try {
@@ -51,13 +74,14 @@ function App() {
     fetchStocks();
   }, []);
 
+
   return (
     <>
       <Navbar islogin={islogin} setIslogin={handleSetLogin} />
       <Routes>
         <Route path="/" element={
           <>
-            <Side />
+            <Side onFilter={handleFilter} />
             <div className="container-items">
               {stockMessage ? (
                 <div style={{ padding: "20px", fontSize: "24px", fontWeight: "bold" }}>{stockMessage}</div>

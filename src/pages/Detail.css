@@ -1,0 +1,185 @@
+.detail-page {
+  max-width: 1100px;
+  margin: 120px auto 60px;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* ── Left Column: Image ──────────────── */
+.detail-image-card {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.04), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+}
+
+.detail-img-wrapper {
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: #f1f5f9;
+}
+
+.detail-img-wrapper img {
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: cover;
+  display: block;
+  border-radius: 16px;
+}
+
+/* ── Right Column: Info details ──────── */
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  padding-top: 8px;
+}
+
+.detail-badge {
+  align-self: flex-start;
+  padding: 6px 16px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.detail-badge-sell {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.detail-badge-rent {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+}
+
+.detail-title {
+  font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 16px 0;
+  line-height: 1.25;
+}
+
+/* ── Price Block ── */
+.detail-price-block {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.detail-price-label {
+  font-size: 13px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.detail-price-value {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* ── Description ── */
+.detail-description-section {
+  margin-bottom: 32px;
+}
+
+.detail-description-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #334155;
+  margin: 0 0 10px 0;
+}
+
+.detail-description-text {
+  font-size: 15px;
+  color: #64748b;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ── Action Button ── */
+.detail-btn {
+  width: 100%;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-align: center;
+}
+
+.detail-btn-buy {
+  background-color: #0f172a;
+  color: #ffffff;
+}
+
+.detail-btn-buy:hover {
+  background-color: #1e293b;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.15);
+}
+
+.detail-btn-rent {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #ffffff;
+}
+
+.detail-btn-rent:hover {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.2);
+}
+
+.detail-btn:active {
+  transform: scale(0.98);
+}
+
+/* ── Media Queries ── */
+@media (max-width: 900px) {
+  .detail-page {
+    grid-template-columns: 1.1fr 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-page {
+    grid-template-columns: 1fr;
+    margin-top: 100px;
+    gap: 28px;
+    padding: 0 16px;
+  }
+
+  .detail-image-card {
+    padding: 12px;
+    border-radius: 20px;
+  }
+
+  .detail-img-wrapper {
+    border-radius: 12px;
+  }
+
+  .detail-img-wrapper img {
+    border-radius: 12px;
+  }
+
+  .detail-title {
+    font-size: 26px;
+  }
+}

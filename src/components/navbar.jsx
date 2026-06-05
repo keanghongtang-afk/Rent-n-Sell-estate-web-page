@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import "./navbar.css";
-import cart from "./assets/cart.jpg";
-import logo from "./assets/logo.jpg"
+import cart from "../assets/cart.jpg";
+import logo from "../assets/logo.jpg"
 function Navbar(props) {
     if (props.islogin) {
         return (

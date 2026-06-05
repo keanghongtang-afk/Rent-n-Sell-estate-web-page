@@ -146,3 +146,31 @@ class StockService:
             return data
         except (FileNotFoundError, json.JSONDecodeError):
             return "ERROR"
+
+    @staticmethod
+    def delete_stock_by_name(name: str):
+        """Permanently delete a stock entry by Item_name (called after a successful purchase/rent)."""
+        try:
+            with open(Stockspath, 'r') as f:
+                items = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            return {"error": "Stock file not found or empty"}
+
+        matching = [item for item in items if item.get("Item_name") == name]
+        if not matching:
+            return {"error": f"No property named '{name}' found"}
+
+        remaining = [item for item in items if item.get("Item_name") != name]
+
+        # Delete associated image files for removed items
+        for item in matching:
+            try:
+                img_path = os.path.join(UPLOAD_DIR, os.path.basename(item["Image"]))
+                os.remove(img_path)
+            except (FileNotFoundError, KeyError):
+                pass
+
+        with open(Stockspath, 'w') as f:
+            json.dump(remaining, f, indent=2)
+
+        return {"message": f"Property '{name}' has been successfully removed from listings"}

@@ -10,7 +10,13 @@ from app.services.stock_service import StockService
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
+    allow_origins=[
+        "https://keanghongtang-afk.github.io",
+        "http://localhost:5174",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+        "http://localhost:5173"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -86,6 +92,10 @@ def update_status(item_idex: int):
 #
 # Filter out Items
 # 
+@app.delete("/stock/delete-by-name/{name}")
+def delete_stock_by_name(name: str):
+    return StockService.delete_stock_by_name(name)
+
 @app.get("/stock/{filter}")
 def filter_out_item(filter: str):
-    return StockService.filter_stocks(filter)
+    return StockService.filter_stocks(filter)

@@ -1,41 +1,41 @@
-import Card from "./Card";
-import Side from "./sidebar";
-import picture from "./assets/house.jpg";
+import Card from "../components/Card";
+import Side from "../components/sidebar";
+import picture from "../assets/house.jpg";
 import { useState, useEffect } from "react";
-import { GetSellItems, Filter, getStock } from "./api";
+import { GetrentItems, getStock, Filter } from "../api";
 
-function Sell({ isLogin }){
+function Rent({ isLogin }){
   const [stocks, setStocks] = useState([]);
   const [stockMessage, setStockMessage] = useState("");
   
-   const handleFilter = async (type) => {
-      try {
-        let data;
-        if (type === "All") {
-          data = await getStock();
-        } else {
-          data = await Filter(type);
+  const handleFilter = async (type) => {
+        try {
+          let data;
+          if (type === "All") {
+            data = await getStock();
+          } else {
+            data = await Filter(type);
+          }
+          
+          if (typeof data === "string") {
+            setStockMessage(data);
+            setStocks([]);
+          } else if (Array.isArray(data) && data.length === 0) {
+            setStockMessage(`No ${type} houses available!`);
+            setStocks([]);
+          } else {
+            setStocks(data);
+            setStockMessage("");
+          }
+        } catch (err) {
+          console.error(err);
         }
-        
-        if (typeof data === "string") {
-          setStockMessage(data);
-          setStocks([]);
-        } else if (Array.isArray(data) && data.length === 0) {
-          setStockMessage(`No ${type} houses available!`);
-          setStocks([]);
-        } else {
-          setStocks(data);
-          setStockMessage("");
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    };
+      };
 
   useEffect(() => {
     const fetchStocks = async () => {
       try {
-        const data = await GetSellItems();
+        const data = await GetrentItems();
         if (typeof data === "string") {
           setStockMessage(data);
           setStocks([]);
@@ -79,4 +79,4 @@ function Sell({ isLogin }){
     
 }
 
-export default Sell;
+export default Rent;

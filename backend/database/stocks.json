@@ -16,5 +16,14 @@
     "SellorRent": "Sell",
     "Status": true,
     "owner": "string"
+  },
+  {
+    "Image": "/uploads/29fedd91f868460cb4d762c135314241.jpg",
+    "Item_name": "Hello Kitty House",
+    "item_descripton": "Locate in Fantasy World",
+    "item_price": 0.0,
+    "SellorRent": "Rent",
+    "Status": true,
+    "owner": "keanghongtang@gmail.com"
   }
 ]

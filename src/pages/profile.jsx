@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
-import { addStock, getStock, getUser } from "./api";
-import picture from "./assets/house.jpg";
+import { addStock, getStock, getUser } from "../api";
+import { Camera, House, Receipt, Key } from "lucide-react";
+
+
+import picture from "../assets/house.jpg";
 import "./profile.css";
 function Profile({ isLogin, userEmail }) {
   const [name, setName] = useState("");
@@ -123,7 +126,7 @@ function Profile({ isLogin, userEmail }) {
       <div className="profile-hero">
         <div className="profile-avatar-ring">
           <div className="profile-avatar">
-          {avatarLetter}
+            {avatarLetter}
           </div>
         </div>
         <div className="profile-info">
@@ -152,7 +155,7 @@ function Profile({ isLogin, userEmail }) {
       <div className={`listing-form-wrapper ${showForm ? "form-visible" : ""}`}>
         <div className="listing-form-card">
           <h2 className="form-title">
-            <span className="form-title-icon">🏡</span>
+            <span className="form-title-icon"><House /></span>
             New Listing
           </h2>
           {error && <p className="form-error">{error}</p>}
@@ -176,8 +179,8 @@ function Profile({ isLogin, userEmail }) {
                   value={type}
                   onChange={(e) => setType(e.target.value)}
                 >
-                  <option value="Sell">🏷️ Sell</option>
-                  <option value="Rent">🔑 Rent</option>
+                  <option value="Sell"><Receipt /> Sell</option>
+                  <option value="Rent"><Key /> Rent</option>
                 </select>
               </div>
             </div>
@@ -209,7 +212,7 @@ function Profile({ isLogin, userEmail }) {
               <div className="form-group">
                 <label htmlFor="house-image">House Image (JPG/JPEG)</label>
                 <label className="file-upload-label" htmlFor="house-image">
-                  <span className="file-upload-icon">📷</span>
+                  <span className="file-upload-icon"><Camera /></span>
                   {imageFile ? imageFile.name : "Choose image…"}
                   <input
                     id="house-image"
@@ -233,7 +236,7 @@ function Profile({ isLogin, userEmail }) {
               className="btn-submit"
               disabled={isSubmitting}
             >
-              {isSubmitting ? "Submitting…" : "🚀 Submit Listing"}
+              {isSubmitting ? "Submitting…" : "Submit Listing"}
             </button>
           </form>
         </div>
@@ -246,7 +249,7 @@ function Profile({ isLogin, userEmail }) {
         </div>
         {myListings.length === 0 ? (
           <div className="no-listings">
-            <div className="no-listings-icon">🏚️</div>
+            <div className="no-listings-icon"><House /></div>
             <p>You haven't listed any properties yet.</p>
             <button
               className="btn-add-listing"
@@ -274,7 +277,7 @@ function Profile({ isLogin, userEmail }) {
                       {isSold ? "Sold" : "Active"}
                     </span>
                     <span className="listing-type-tag">
-                      {item.SellorRent === "Sell" ? "🏷️ For Sale" : "🔑 For Rent"}
+                      {item.SellorRent === "Sell" ? "For Sale" : "For Rent"}
                     </span>
                   </div>
                   <div className="listing-body">

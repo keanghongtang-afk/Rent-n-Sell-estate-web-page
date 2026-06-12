@@ -12,7 +12,6 @@ import Rent from "./pages/Rent";
 import Sell from "./pages/Sell";
 import { getStock, Filter } from "./api";
 import "./App.css";
-import picture from "./assets/house.jpg";
 
 function App() {
   const [islogin, setIslogin] = useState(localStorage.getItem("islogin") === "true");
@@ -42,15 +41,23 @@ function App() {
       if (typeof data === "string") {
         setStockMessage(data);
         setStocks([]);
+      } else if (data && data.error) {
+        setStockMessage("Error loading data");
+        setStocks([]);
       } else if (Array.isArray(data) && data.length === 0) {
         setStockMessage(`No ${type} houses available!`);
         setStocks([]);
-      } else {
+      } else if (Array.isArray(data)) {
         setStocks(data);
         setStockMessage("");
+      } else {
+        setStockMessage("No stock available!");
+        setStocks([]);
       }
     } catch (err) {
       console.error(err);
+      setStockMessage("Error loading data");
+      setStocks([]);
     }
   };
   useEffect(() => {
@@ -60,15 +67,23 @@ function App() {
         if (typeof data === "string") {
           setStockMessage(data);
           setStocks([]);
+        } else if (data && data.error) {
+          setStockMessage("Error loading data");
+          setStocks([]);
         } else if (Array.isArray(data) && data.length === 0) {
           setStockMessage("No stock available!");
           setStocks([]);
-        } else {
+        } else if (Array.isArray(data)) {
           setStocks(data);
           setStockMessage("");
+        } else {
+          setStockMessage("No stock available!");
+          setStocks([]);
         }
       } catch (err) {
         console.error(err);
+        setStockMessage("Error loading data");
+        setStocks([]);
       }
     };
     fetchStocks();
@@ -92,7 +107,7 @@ function App() {
                     name={item.Item_name} 
                     description={item.item_descripton || item.item_description} 
                     price={item.item_price.toString()} 
-                    image={item.Image ? `http://localhost:8000${item.Image}` : picture} 
+                    image={`http://localhost:8000${item.Image}`} 
                     SoR = {item.SellorRent}
                     isLogin={islogin}
                   />
@@ -103,9 +118,9 @@ function App() {
         } />
         <Route path="/login" element={<Login setLogin={handleSetLogin} />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/cart" element={<Cart isLogin={islogin} />} />
+        <Route path="/cart" element={<Cart isLogin={islogin} userEmail={userEmail} userName={userName} />} />
         <Route path="/detail" element={<Detail />} />
-        <Route path="/profile" element={<Profile isLogin={islogin} userEmail={userEmail} userName={userName} />} />
+        <Route path="/profile" element={<Profile isLogin={islogin} userEmail={userEmail} userName={userName} setIslogin={handleSetLogin} />} />
         <Route path="/rent" element={<Rent isLogin={islogin}/>} />
         <Route path="/sell" element={<Sell isLogin={islogin}/>} />
       </Routes>

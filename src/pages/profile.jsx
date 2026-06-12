@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { addStock, getStock, getUser } from "../api";
-import { Camera, House, Receipt, Key } from "lucide-react";
+import { Camera, House, Receipt, Key, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
-
-import picture from "../assets/house.jpg";
 import "./profile.css";
-function Profile({ isLogin, userEmail }) {
+function Profile({ isLogin, userEmail, setIslogin }) {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
@@ -17,6 +17,19 @@ function Profile({ isLogin, userEmail }) {
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userName, setUserName] = useState("");
+
+  const Logout = () => {
+    localStorage.removeItem("islogin");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userName");
+    
+    // Call the setIslogin from parent if available
+    if (setIslogin) {
+      setIslogin(false);
+    }
+    
+    navigate("/login");
+  };
   const fetchMyListings = async () => {
     try {
       const data = await getStock();
@@ -262,9 +275,7 @@ function Profile({ isLogin, userEmail }) {
           <div className="listings-grid">
             {myListings.map((item, index) => {
               const isSold = item.is_sold || item.sold || false;
-              const imgSrc = item.Image
-                ? `http://localhost:8000${item.Image}`
-                : picture;
+              const imgSrc = `http://localhost:8000${item.Image}`;
               return (
                 <div key={index} className={`listing-card ${isSold ? "listing-sold" : ""}`}>
                   <div className="listing-img-wrapper">
@@ -299,6 +310,21 @@ function Profile({ isLogin, userEmail }) {
             })}
           </div>
         )}
+        <div className="danger-zone">
+          <div className="danger-zone-header">
+            <div className="danger-zone-icon">
+              <LogOut />
+            </div>
+            <div className="danger-zone-text">
+              <h3 className="danger-zone-title">Logout</h3>
+              <p className="danger-zone-description">Sign out from your account</p>
+            </div>
+          </div>
+          <button onClick={Logout} className="btn-logout">
+            <LogOut size={18} />
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   );

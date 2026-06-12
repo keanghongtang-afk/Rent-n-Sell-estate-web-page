@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { getCart, deleteFromCart, clearCart, deleteStockByName } from "../api";
+import { getCart, deleteFromCart, clearCart, placeOrder } from "../api";
 import { Link } from "react-router-dom";
 import "./Cart.css";
 
-function Cart({ isLogin }) {
+function Cart({ isLogin, userEmail, userName }) {
     const [cart, setCart] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     // Load cart from localStorage on mount and whenever the component is focused
     const loadCart = () => {
@@ -27,19 +28,38 @@ function Cart({ isLogin }) {
             return;
         }
         if (cart.length === 0) return;
+        if (!userEmail || !userName) {
+            alert("User information is missing. Please login again.");
+            return;
+        }
 
+        setIsLoading(true);
         try {
-            // Delete each purchased/rented property from the backend stock
-            const deletePromises = cart.map((item) => deleteStockByName(item.name));
-            await Promise.all(deletePromises);
+            // Prepare cart items for backend
+            const items = cart.map(item => ({
+                name: item.name,
+                price: item.price,
+                type: item.type
+            }));
 
-            // Clear the cart from localStorage
-            clearCart();
-            loadCart();
+            // Send order to backend — backend will email each property owner
+            // and delete the stock records automatically
+            const response = await placeOrder(userEmail, userName, items);
 
-            alert("Your order has been placed successfully! The propert(ies) have been removed from listings.");
+            // Check if order was successful
+            if (response.error) {
+                alert(`Order failed: ${response.error}`);
+            } else {
+                // Clear the local cart
+                clearCart();
+                loadCart();
+                alert("Your order has been placed successfully! Property owners have been notified via email.");
+            }
         } catch (err) {
             alert(`Failed to place order: ${err.message}`);
+            console.error("Order error:", err);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -88,9 +108,9 @@ function Cart({ isLogin }) {
                     <button
                         className="order-btn"
                         onClick={handleOrder}
-                        disabled={cart.length === 0}
+                        disabled={cart.length === 0 || isLoading}
                     >
-                        Order
+                        {isLoading ? "Processing..." : "Order"}
                     </button>
                     <Link to="/"><button className="shop-btn">Continue Shopping</button></Link>
                 </center>

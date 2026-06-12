@@ -40,6 +40,7 @@ export const getCart = () => {
   return getCartLocal();
 };
 
+
 /**
  * Delete an item from the cart by index (localStorage)
  * @param {number} itemId
@@ -100,9 +101,11 @@ export const signup = async (name, email, password) => {
  */
 export const login = async (email, password) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/users/${encodeURIComponent(email)}/${encodeURIComponent(password)}`, {
+    const response = await fetch(`${API_BASE_URL}/users/login/${encodeURIComponent(email)}?user_password=${encodeURIComponent(password)}`, {
       method: "GET",
-      headers: { "Content-Type": "application/json" }
+      headers: {
+        "Content-Type": "application/json"
+      }
     });
     if (!response.ok) {
       const errorText = await response.text();
@@ -237,5 +240,73 @@ export const Filter = async (filter) => {
   } catch (e) {
     console.log(e);
     throw e;
+  }
+};
+
+// ─────────────────────────────────────────────
+//  Orders
+// ─────────────────────────────────────────────
+
+/**
+ * Place an order with cart items
+ * Sends customer info to backend which will notify property owners via email
+ * @param {string} customerEmail - Customer's email address
+ * @param {string} customerName - Customer's username/name
+ * @param {Array} items - Cart items array [{name, price, type}, ...]
+ * @returns {Promise<Object>} Order confirmation with results
+ */
+export const placeOrder = async (customerEmail, customerName, items) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        customer_email: customerEmail,
+        customer_name: customerName,
+        items: items
+      })
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to place order`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error placing order:", error);
+    throw error;
+  }
+};
+
+/**
+ * Get all orders (admin/dashboard view)
+ */
+export const getAllOrders = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    });
+    if (!response.ok) throw new Error("Failed to fetch orders");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    throw error;
+  }
+};
+
+/**
+ * Get customer's orders by email
+ * @param {string} customerEmail - Customer's email address
+ */
+export const getCustomerOrders = async (customerEmail) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders/${encodeURIComponent(customerEmail)}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" }
+    });
+    if (!response.ok) throw new Error("Failed to fetch customer orders");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching customer orders:", error);
+    throw error;
   }
 };

@@ -1,6 +1,5 @@
 import Card from "../components/Card";
 import Side from "../components/sidebar";
-import picture from "../assets/house.jpg";
 import { useState, useEffect } from "react";
 import { GetSellItems, Filter, getStock } from "../api";
 
@@ -20,15 +19,23 @@ function Sell({ isLogin }){
         if (typeof data === "string") {
           setStockMessage(data);
           setStocks([]);
+        } else if (data && data.error) {
+          setStockMessage("Error loading data");
+          setStocks([]);
         } else if (Array.isArray(data) && data.length === 0) {
           setStockMessage(`No ${type} houses available!`);
           setStocks([]);
-        } else {
+        } else if (Array.isArray(data)) {
           setStocks(data);
           setStockMessage("");
+        } else {
+          setStockMessage("No stock available!");
+          setStocks([]);
         }
       } catch (err) {
         console.error(err);
+        setStockMessage("Error loading data");
+        setStocks([]);
       }
     };
 
@@ -39,15 +46,23 @@ function Sell({ isLogin }){
         if (typeof data === "string") {
           setStockMessage(data);
           setStocks([]);
+        } else if (data && data.error) {
+          setStockMessage("Error loading data");
+          setStocks([]);
         } else if (Array.isArray(data) && data.length === 0) {
           setStockMessage("No stock available!");
           setStocks([]);
-        } else {
+        } else if (Array.isArray(data)) {
           setStocks(data);
           setStockMessage("");
+        } else {
+          setStockMessage("No stock available!");
+          setStocks([]);
         }
       } catch (err) {
         console.error(err);
+        setStockMessage("Error loading data");
+        setStocks([]);
       }
     };
     fetchStocks();
@@ -66,7 +81,7 @@ function Sell({ isLogin }){
               name={item.Item_name} 
               description={item.item_descripton || item.item_description} 
               price={item.item_price.toString()} 
-              image={item.Image ? `http://localhost:8000${item.Image}` : picture} 
+              image={`http://localhost:8000${item.Image}`} 
               SoR = {item.SellorRent}
               isLogin={isLogin}
             />

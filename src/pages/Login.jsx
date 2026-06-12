@@ -14,7 +14,7 @@ function Login({ setLogin }) {
     setError("");
     try {
       const result = await login(email, password);
-      if (result === true) {
+      if (result) {
         // Fetch real name and cache it
         let realName = "";
         try {
@@ -25,7 +25,8 @@ function Login({ setLogin }) {
         alert("Logged in successfully!");
         navigate("/");
       } else {
-        setError(result || "Login failed");
+        console.log(result.error)
+        setError(result.error || "Login failed");
       }
     } catch (err) {
       setError(err.message || "Something went wrong during login");
@@ -41,22 +42,22 @@ function Login({ setLogin }) {
         {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
         <label>
           Email:
-          <input 
-            type="email" 
-            placeholder="Enter your email" 
+          <input
+            type="email"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required 
+            required
           />
         </label>
         <label>
           Password:
-          <input 
-            type="password" 
-            placeholder="Enter your password" 
+          <input
+            type="password"
+            placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required 
+            required
           />
         </label>
         <button type="submit">Login</button>

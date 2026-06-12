@@ -563,6 +563,99 @@
 .status-sold   { color: #ef4444; }
 
 /* ══════════════════════════════════════════
+   DANGER ZONE (LOGOUT)
+   ══════════════════════════════════════════ */
+.danger-zone {
+  margin-top: 40px;
+  padding: 24px;
+  background: linear-gradient(135deg, #fef2f2 0%, #fef5f5 100%);
+  border: 2px solid #fecaca;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 4px 6px rgba(239, 68, 68, 0.05);
+  transition: all 0.3s ease-in-out;
+}
+
+.danger-zone:hover {
+  border-color: #f87171;
+  box-shadow: 0 8px 16px rgba(239, 68, 68, 0.1);
+}
+
+.danger-zone-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex: 1;
+}
+
+.danger-zone-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #fee2e2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #dc2626;
+  flex-shrink: 0;
+}
+
+.danger-zone-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.danger-zone-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #991b1b;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.danger-zone-description {
+  font-size: 0.85rem;
+  color: #dc2626;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Logout Button */
+.btn-logout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #dc2626;
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.btn-logout:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(220, 38, 38, 0.25);
+}
+
+.btn-logout:active {
+  transform: scale(0.97);
+}
+
+/* ══════════════════════════════════════════
    RESPONSIVE Breakpoints
    ══════════════════════════════════════════ */
 @media (max-width: 1200px) {
@@ -602,6 +695,21 @@
 
   .listing-form-card {
     padding: 28px 24px;
+  }
+
+  .danger-zone {
+    flex-direction: column;
+    text-align: center;
+    align-items: stretch;
+  }
+
+  .danger-zone-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .btn-logout {
+    width: 100%;
   }
 }
 

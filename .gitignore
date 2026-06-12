@@ -28,3 +28,7 @@ dist-ssr
 backend/.env
 backend/__pycache__/
 *.pyc
+
+#demo
+demo.mp4
+*.mp4

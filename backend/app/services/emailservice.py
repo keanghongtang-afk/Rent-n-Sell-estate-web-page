@@ -43,7 +43,7 @@ def send_email(owner_email: str, email_customer: str, username: str):
     <html>
       <body style="font-family:Arial,sans-serif;max-width:600px;margin:auto;padding:20px;">
         <div style="text-align:center;margin-bottom:20px;">
-            <h1 style="color:#2c3e50;">H&amp;R Estate</h1>
+            <img src="./logo.png"> <h1 style="color:#2c3e50;">H&amp;R Estate</h1>
         </div>
         <hr/>
         <h2>Dear Property Owner,</h2>

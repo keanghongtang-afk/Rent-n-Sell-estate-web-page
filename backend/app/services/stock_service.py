@@ -152,14 +152,14 @@ class StockService:
         try:
             data = []
             
-            if filter == "Affordable":
-                items = session.query(Stocks).filter(Stocks.item_price < 60000).all()
-            elif filter == "Normal":
-                items = session.query(Stocks).filter(Stocks.item_price < 150000).all()      
+            if filter == "Luxurious":
+                items = session.query(Stocks).filter(Stocks.item_price >= 1000000).all()
             elif filter == "Medium":
-                items = session.query(Stocks).filter(Stocks.item_price < 400000).all()
-            elif filter == "Luxurious":
-                items = session.query(Stocks).filter(Stocks.item_price < 5000000).all()
+                items = session.query(Stocks).filter(Stocks.item_price >= 500000, Stocks.item_price < 1000000).all()      
+            elif filter == "Normal":
+                items = session.query(Stocks).filter(Stocks.item_price >= 200000, Stocks.item_price < 500000).all()
+            elif filter == "Affordable":
+                items = session.query(Stocks).filter(Stocks.item_price < 200000).all()
             else:
                 raise HTTPException(status_code=400, detail=f"There are no such filter like {filter}")
             

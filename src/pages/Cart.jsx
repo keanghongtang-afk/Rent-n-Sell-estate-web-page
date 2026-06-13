@@ -7,7 +7,6 @@ function Cart({ isLogin, userEmail, userName }) {
     const [cart, setCart] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Load cart from localStorage on mount and whenever the component is focused
     const loadCart = () => {
         const data = getCart();
         setCart(Array.isArray(data) ? data : []);
@@ -35,22 +34,17 @@ function Cart({ isLogin, userEmail, userName }) {
 
         setIsLoading(true);
         try {
-            // Prepare cart items for backend
             const items = cart.map(item => ({
                 name: item.name,
                 price: item.price,
                 type: item.type
             }));
 
-            // Send order to backend — backend will email each property owner
-            // and delete the stock records automatically
             const response = await placeOrder(userEmail, userName, items);
 
-            // Check if order was successful
             if (response.error) {
                 alert(`Order failed: ${response.error}`);
             } else {
-                // Clear the local cart
                 clearCart();
                 loadCart();
                 alert("Your order has been placed successfully! Property owners have been notified via email.");

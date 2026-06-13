@@ -14,7 +14,7 @@ function Login({ setLogin }) {
     setError("");
     try {
       const result = await login(email, password);
-      if (result) {
+      if (result == true) {
         // Fetch real name and cache it
         let realName = "";
         try {
@@ -25,8 +25,8 @@ function Login({ setLogin }) {
         alert("Logged in successfully!");
         navigate("/");
       } else {
-        console.log(result.error)
-        setError(result.error || "Login failed");
+        console.log(result.error.detail);
+        setError(result.error.detail || "Login failed");
       }
     } catch (err) {
       setError(err.message || "Something went wrong during login");
@@ -39,7 +39,7 @@ function Login({ setLogin }) {
         <center>
           <h2>Login</h2>
         </center>
-        {error && <p style={{ color: "red", textAlign: "center" }}>{error}</p>}
+        {error && <p style={{ color: "red", textAlign: "center", fontSize: "25px" }}>{error}</p>}
         <label>
           Email:
           <input

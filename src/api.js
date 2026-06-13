@@ -26,6 +26,9 @@ const getCartLocal = () => {
  */
 export const addToCart = (name, price, type) => {
   const cart = getCartLocal();
+  if (cart.find((item) => item.name === name && item.type === type)) {
+    return { name, price: parseFloat(price), type, message: "Item already added to cart" };
+  }
   cart.push({ name, price: parseFloat(price), type });
   localStorage.setItem("cart", JSON.stringify(cart));
   return { name, price: parseFloat(price), type, message: "Item added to cart successfully" };
@@ -107,8 +110,7 @@ export const login = async (email, password) => {
       }
     });
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Login failed (HTTP ${response.status}): ${errorText}`);
+      throw new Error(`Wrong Email or Password`);
     }
     const data = await response.json();
     return data;

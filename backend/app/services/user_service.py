@@ -21,8 +21,8 @@ class UserService:
             session.add(signup)
             session.commit()
             return {"message":"Signup successfully"}
-        except Exception as e:
-            return {"error":str(e)}
+        except HTTPException:
+            raise
         finally: session.close()
 
     @staticmethod
@@ -36,8 +36,8 @@ class UserService:
                     raise HTTPException(status_code=401,detail="Wrong password")
             else:
                 raise HTTPException(status_code=401,detail="Wrong email")
-        except Exception as e:
-            return {"error":str(e.detail)}
+        except  HTTPException:
+            raise
         finally: session.close()
 
     @staticmethod
@@ -48,5 +48,5 @@ class UserService:
                 return {"Name": user.name, "Email": user.email}
             else:
                 raise HTTPException(status_code=404, detail="User not found")
-        except Exception as e:
-            return {"error": str(e)}
+        except HTTPException:
+            raise

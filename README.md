@@ -126,7 +126,7 @@ https://myaccount.google.com/apppasswords
 Create ```.env``` file in ```rent-and-sell``` folder:
 
 ```txt
-VITE_API_BASE_URL=http://localhost:8000
+VITE_API_URL=http://localhost:8000
 ```
 
 ## Demo

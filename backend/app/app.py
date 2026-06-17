@@ -1,5 +1,5 @@
 import os
-from fastapi import FastAPI, File, UploadFile, Form
+from fastapi import FastAPI, File, UploadFile, Form, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from typing import Optional
@@ -7,6 +7,7 @@ from app.schemas import UserSignup, PlaceOrderRequest
 from app.services.user_service import UserService
 from app.services.stock_service import StockService
 from app.services.order_service import OrderService
+from app.router import stock_router
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -14,8 +15,6 @@ app.add_middleware(
         "https://keanghongtang-afk.github.io",
         "https://estatecam.netlify.app",
         "http://localhost:5174",
-        "http://localhost:3000",
-        "http://127.0.0.1:5173",
         "http://localhost:5173"
     ],
     allow_credentials=True,
@@ -25,6 +24,8 @@ app.add_middleware(
 UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+
+app.include_router(stock_router)
 #
 # For SignUp and Login
 # 

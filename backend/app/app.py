@@ -26,11 +26,11 @@ app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 #
 # For SignUp and Login
 # 
-@app.post("/users/signup")
+@app.post("/signup")
 def signup(user: UserSignup):
     return UserService.signup(user)
 
-@app.get("/users/login/{user_email}")
+@app.get("/login/{user_email}")
 def login(user_email: str, user_password: str):
     return UserService.login(user_email, user_password)
 

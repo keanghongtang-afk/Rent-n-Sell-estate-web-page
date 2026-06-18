@@ -27,7 +27,7 @@ class StockService:
             with open(file_path, "wb") as buffer:
                 shutil.copyfileobj(image.file, buffer)
                 
-            image_url = f"/uploads/{unique_filename}"
+            image_url = f"https://rent-n-sell-estate-web-page.onrender.com/uploads/{unique_filename}"
 
             new_stock = Stocks(
                 Image=image_url,

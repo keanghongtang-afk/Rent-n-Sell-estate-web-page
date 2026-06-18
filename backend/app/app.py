@@ -7,7 +7,6 @@ from app.schemas import UserSignup, PlaceOrderRequest
 from app.services.user_service import UserService
 from app.services.stock_service import StockService
 from app.services.order_service import OrderService
-from app.router import stock_router
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -24,8 +23,6 @@ app.add_middleware(
 UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
-
-app.include_router(stock_router)
 #
 # For SignUp and Login
 # 
@@ -33,7 +30,7 @@ app.include_router(stock_router)
 def signup(user: UserSignup):
     return UserService.signup(user)
 
-@app.get("/users/login/{user_email}")
+@app.get("/auth/login/{user_email}")
 def login(user_email: str, user_password: str):
     return UserService.login(user_email, user_password)
 

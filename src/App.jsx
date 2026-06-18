@@ -184,7 +184,7 @@ function App() {
 
 
   return (
-    <>
+    <div className="app">
       <Navbar islogin={islogin} setIslogin={handleSetLogin} />
       <Routes>
         <Route path="/" element={islogin?
@@ -210,9 +210,9 @@ function App() {
           </>:
           <div>
             <div className="intro">
-              <h1>{Title}</h1>
-              <p>{introduct}</p>
-              <p>{footer}</p>
+              <h1 className="intro-text">{Title}</h1>
+              <p  className="intro-text">{introduct}</p>
+              <p  className="intro-text">{footer}</p>
               <div>
                 <Link to="/login"  className={done?"show":"noshow"}>Login <ArrowBigRight/></Link>
                 <Link to="/signup" className={done?"show":"noshow"}>Signup <ArrowBigRight /></Link>
@@ -248,7 +248,7 @@ function App() {
         <Route path="/rent" element={<Rent isLogin={islogin}/>} />
         <Route path="/sell" element={<Sell isLogin={islogin}/>} />
       </Routes>
-    </>
+    </div>
   )
 }
 

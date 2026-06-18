@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getCart, deleteFromCart, clearCart, placeOrder } from "../api";
+import { Trash2Icon } from "lucide-react";
 import { Link } from "react-router-dom";
 import "./Cart.css";
 
@@ -63,7 +64,7 @@ function Cart({ isLogin, userEmail, userName }) {
     return (
         <>
             <div className="container">
-                <center><b style={{ fontSize: "40px" }}>Your Cart</b></center>
+                <center><b style={{ fontSize: "30px" }}>Cart</b></center>
                 <hr />
                 <div className="cart-container">
                     <div className="cart-header">
@@ -72,6 +73,7 @@ function Cart({ isLogin, userEmail, userName }) {
                         <h2>Price</h2>
                         <h2>Action</h2>
                     </div>
+                    <div className="items-container">
                     {cart.length > 0 ? (
                         cart.map((item, index) => (
                             <div className="cart-item" key={index}>
@@ -80,9 +82,9 @@ function Cart({ isLogin, userEmail, userName }) {
                                 <p>${item.price}</p>
                                 <button
                                     onClick={() => handleDeleteItem(index)}
-                                    style={{ padding: "5px 10px", cursor: "pointer", backgroundColor: "black", color: "white" }}
+                                    style={{ padding: "5px 10px",border: "0px", cursor: "pointer", backgroundColor: "#003152", color: "#addff1" }}
                                 >
-                                    Delete
+                                    <Trash2Icon />
                                 </button>
                             </div>
                         ))
@@ -91,12 +93,13 @@ function Cart({ isLogin, userEmail, userName }) {
                             <p>Your cart is empty</p>
                         </div>
                     )}
+                    </div>
                 </div>
                 <hr />
                 <div className="total">
                     <h2>Total: </h2>
-                    <p>${total.toFixed(2)}</p>
-                    <p>{totalRiel.toFixed(0)} Riel</p>
+                    <p>Dollar: {total.toFixed(2)} $</p>
+                    <p>Riel: {totalRiel.toFixed(0)} R</p>
                 </div>
                 <center className="btn">
                     <button

@@ -8,7 +8,8 @@
     margin-right: auto;
     max-width: 500px;
     min-width: 400px;
-    background-color: white;
+    background-color: #003152;
+    color: #addff1;
     border-radius: 10px;
     padding: 20px;
     border: 2px solid rgb(221, 218, 218);
@@ -24,6 +25,10 @@
     margin: 0;
     font-size: 24px;
     font-weight: 500;
+}
+
+.items-container {
+    max-height: 200px;
 }
 
 .cart-item {
@@ -59,17 +64,18 @@ hr {
 .btn .shop-btn {
     width: fit-content;
     border-radius: 10px;
-    background-color: black;
-    color: white;
+    background-color: #003152;
+    border: 2px solid #addff1;
+    color: #addff1;
     padding: 10px;
 }
 
 .btn .order-btn:hover,
 .btn .shop-btn:hover {
     transform: scale(1.05);
-    background-color: white;
-    color: black;
-    box-shadow: 2px 2px 5px black;
+    background-color: #addff1;
+    color: #003152;
+    box-shadow: 2px 2px 5px #003152;
 }
 
 .btn .order-btn:disabled {
@@ -78,6 +84,6 @@ hr {
 
 .btn .order-btn:disabled:hover {
     transform: scale(1);
-    background-color: red;
+    background-color: rgb(252, 161, 161);
     box-shadow: none;
 }

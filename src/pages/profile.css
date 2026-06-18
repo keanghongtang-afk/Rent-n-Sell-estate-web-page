@@ -515,6 +515,17 @@
   gap: 6px;
 }
 
+.listing-body .takeoff{
+  padding: 5px;
+  border-radius: 10px;
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+
+.listing-body .takeoff:hover{
+  background-color: red;
+}
+
 .listing-name {
   font-size: 18px;
   font-weight: 700;

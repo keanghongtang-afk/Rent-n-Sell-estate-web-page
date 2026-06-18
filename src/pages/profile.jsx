@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addStock, getStock, getUser } from "../api";
+import { addStock, getStock, getUser, deleteStockByName } from "../api";
 import { Camera, House, Receipt, Key, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,6 +17,7 @@ function Profile({ isLogin, userEmail, setIslogin }) {
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [userName, setUserName] = useState("");
+  const [takingOff, setistankingOff] = useState(false);
 
   const Logout = () => {
     localStorage.removeItem("islogin");
@@ -67,6 +68,7 @@ function Profile({ isLogin, userEmail, setIslogin }) {
         .then((data) => { if (isMounted) setUserName(data.Name || ""); })
         .catch(() => { /* fallback to email prefix silently */ });
     }
+    
     return () => {
       isMounted = false;
     };
@@ -122,6 +124,20 @@ function Profile({ isLogin, userEmail, setIslogin }) {
       }
     }
   };
+
+  const handleTakeoff = async (itemname) => {
+    setistankingOff(true);
+    alert("Deleting...");
+    try {
+    const result = await deleteStockByName(itemname);
+    console.log(result);
+    } catch (error) {
+      console.error(error);
+    }finally{
+      setistankingOff(false);
+      alert("Delete Successfully");
+    }
+  }
   if (!isLogin) {
     return (
       <div className="profile-not-logged-in">
@@ -275,7 +291,7 @@ function Profile({ isLogin, userEmail, setIslogin }) {
           <div className="listings-grid">
             {myListings.map((item, index) => {
               const isSold = item.is_sold || item.sold || false;
-              const imgSrc = `http://localhost:8000${item.Image}`;
+              const imgSrc = `https://rent-n-sell-estate-web-page.onrender.com${item.Image}`;
               return (
                 <div key={index} className={`listing-card ${isSold ? "listing-sold" : ""}`}>
                   <div className="listing-img-wrapper">
@@ -304,6 +320,7 @@ function Profile({ isLogin, userEmail, setIslogin }) {
                         {isSold ? "● Sold" : "● Active"}
                       </span>
                     </div>
+                    <button className="takeoff" onClick={() => handleTakeoff(item.Item_name)} disabled={takingOff}>{takingOff?"Deleting...":"Take Off"}</button>
                   </div>
                 </div>
               );

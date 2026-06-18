@@ -17,6 +17,75 @@ body {
   padding: 24px 0 100px 0;
 }
 
+.intro .noshow {
+  opacity: 0;
+}
+
+.intro .show {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-in forwards;
+  text-decoration: none;
+  border: 2px solid black;
+  border-radius: 10px;
+  background-color: white;
+  color: black;
+  padding: 10px;
+  margin: 10px;
+}
+
+.intro .show:hover {
+  box-shadow: 2px 2px 5px black;
+}
+
+.intro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 50px;
+  background-image: url("assets/background.jpg");
+  text-align: center;
+  color: white;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 95vh;
+}
+
+.intro::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5); /* adjust darkness */
+  z-index: 1;
+}
+
+.intro > * {
+  position: relative;
+  z-index: 2;
+}
+
+.briefing {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.items {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+
+@keyframes fadeIn {
+  from{opacity: 0;}
+  to{opacity: 1;}
+}
+
+
 /* Big Desktop (5 columns) */
 @media (min-width: 1400px) {
   .container-items {

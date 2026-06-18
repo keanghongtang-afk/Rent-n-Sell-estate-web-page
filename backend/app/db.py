@@ -1,9 +1,20 @@
 from sqlalchemy import Column, String, Integer, Boolean, DateTime, Float, create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 from datetime import datetime
+from dotenv import load_dotenv
+import os
 
-DATABASE = "sqlite:///./database/data.db"
-engine = create_engine(DATABASE)
+load_dotenv()
+
+USER = os.getenv("user")
+PASSWORD = os.getenv("password")
+HOST = os.getenv("host")
+PORT = os.getenv("port")
+DBNAME = os.getenv("dbname")
+
+
+DATABASE_URL = f"postgresql+psycopg2://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}?sslmode=require"
+engine = create_engine(DATABASE_URL)
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -51,4 +62,10 @@ class Order(Base):
     order_type = Column(String)  # "Rent" or "Sell"
     order_date = Column(DateTime, default=datetime.utcnow)
     
+    
+try:
+    with engine.connect() as connection:
+       print("Connection successful!")
+except Exception as e:
+    print(f"Failed to connect: {e}")
 Base.metadata.create_all(engine)
